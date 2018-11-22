@@ -1,0 +1,45 @@
+﻿{% load static %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Hello, WebVR! A-Frame</title>
+    <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
+    <script src="/static/Scripts/CameraControl.js"></script>
+    <script src="/static/Scripts/bundle.js"></script>
+    <script src="/static/Scripts/Player.js"></script>
+    <script src="/static/Scripts/EnemyGenerator.js"></script>
+    <script src="/static/Scripts/Enemy.js"></script>
+  </head>
+
+  <body>
+    <a-asset>
+      <img id = "skyTexture" src = "/static/Resources/sky.jpg">
+      <img id = "groundTexture" src = "/static/Resources/sky.jpg">
+    </a-asset>
+
+    <a-scene physics="debug: true; gravity: 0">
+
+      <a-mixin id="enemy" enemy static-body shadow></a-mixin>
+
+      <a-sky id="bg" radius="30" src="#skyTexture" theta-length="90"></a-sky>
+      <a-cylinder id="ground" src="#groundTexture" radius="32" height="0.1" static-body></a-cylinder>
+
+      <a-box position="-1 1 -3" rotation="0 45 0" color="#4CC3D9" shadow dynamic-body>
+        <!-- <a-animation attribute="rotation" dur="1000" fill="forwards" to="90 45 0" repeat="indefinite"></a-animation> -->
+      </a-box>
+
+      <a-sphere id="player" position="0 3 3" radius="1.25" color="#EF2D5E" shadow player static-body collision-able>
+        <a-camera>
+          <a-cursor intersection-spawn="event: click"></a-cursor>
+        </a-camera>
+      </a-sphere>
+
+      <a-sphere position="0 0 0" enemy-generator></a-entity>
+
+      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D" shadow dynamic-body></a-cylinder>
+    </a-scene>
+
+  </body>
+</html>
