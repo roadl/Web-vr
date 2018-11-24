@@ -11,6 +11,7 @@
     <script src="/static/Scripts/Player.js"></script>
     <script src="/static/Scripts/EnemyGenerator.js"></script>
     <script src="/static/Scripts/Enemy.js"></script>
+    <script src="/static/Scripts/Score.js"></script>
   </head>
 
   <body>
@@ -19,26 +20,26 @@
       <img id = "groundTexture" src = "/static/Resources/sky.jpg">
     </a-asset>
 
-    <a-scene physics="debug: true; gravity: 0">
+    <a-scene physics="debug: false; gravity: 0">
 
       <a-mixin id="enemy" enemy static-body shadow></a-mixin>
+      <a-mixin id="player-body" dynamic-body="shape: sphere"></a-mixin>
 
-      <a-sky id="bg" radius="30" src="#skyTexture" theta-length="90"></a-sky>
-      <a-cylinder id="ground" src="#groundTexture" radius="32" height="0.1" static-body></a-cylinder>
+      <a-sky id="bg" radius="30" rotation="0 180 0" src="#skyTexture" theta-length="90"></a-sky>
+      <a-cylinder id="ground" src="#groundTexture" radius="32" height="0.1"></a-cylinder>
 
-      <a-box position="-1 1 -3" rotation="0 45 0" color="#4CC3D9" shadow dynamic-body>
-        <!-- <a-animation attribute="rotation" dur="1000" fill="forwards" to="90 45 0" repeat="indefinite"></a-animation> -->
-      </a-box>
+      <a-box position="-1 1 -3" rotation="0 45 0" color="#4CC3D9" shadow dynamic-body></a-box>
 
-      <a-sphere id="player" position="0 3 3" radius="1.25" color="#EF2D5E" shadow player static-body collision-able>
-        <a-camera>
+      <a-sphere id="player" collision-able player-body player position="0 3 3" radius="1.25" color="#EF2D5E" shadow>
+        <a-camera automove universal-controls>
           <a-cursor intersection-spawn="event: click"></a-cursor>
+          <a-text score value="Score : 0" position="1.1 0.7 -1" width="2"></a-text>
+          <a-text id="hp" value="HP : 100" position="1.2 0.6 -1" width="2"></a-text>
         </a-camera>
       </a-sphere>
 
-      <a-sphere position="0 0 0" enemy-generator></a-entity>
+      <a-entity enemy-generator></a-entity>
 
-      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D" shadow dynamic-body></a-cylinder>
     </a-scene>
 
   </body>

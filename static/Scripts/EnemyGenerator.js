@@ -11,9 +11,9 @@ AFRAME.registerComponent('enemy-generator', {
 
       var newObjectEl;
 
-      var x = Math.random();
+      var x = Math.random() - 0.5;
       var y = Math.random();
-      var z = Math.random();
+      var z = Math.random() - 0.5;
 
       var direction = new THREE.Vector3(x, y, z).normalize();
 
@@ -21,7 +21,13 @@ AFRAME.registerComponent('enemy-generator', {
 
       console.log(step);
 
-      newObjectEl = document.createElement('a-box');
+      var type = Math.floor(Math.random() * 2);
+
+      if (type === 1)
+        newObjectEl = document.createElement('a-sphere');
+      else{
+        newObjectEl = document.createElement('a-box');
+      }
 
       newObjectEl.setAttribute('position', {x: step.x, y: step.y, z: step.z});
       newObjectEl.setAttribute('mixin', 'enemy');
@@ -37,11 +43,11 @@ AFRAME.registerComponent('enemy-generator', {
 
     data.spawnDelay += timeDelta;
 
-    if(data.spawnDelay > 5000)
+    if(data.spawnDelay > 1000)
     {
-      data.spawnDelay -= 5000;
+      data.spawnDelay -= 1000;
 
-      //this.el.emit('generate');
+      this.el.emit('generate');
     }
   }
 });

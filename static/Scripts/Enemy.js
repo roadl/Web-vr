@@ -3,7 +3,7 @@ AFRAME.registerComponent('enemy', {
     {
       direction: {type: 'vec3', default: {x : 0, y : 0, z : 0}},
       rotation: {type: 'vec3', default: {x : 0, y : 0, z : 0}},
-      step: {type: 'number', default: 0.05}
+      step: {type: 'number', default: Math.random() * 0.1 + 0.05}
     },
 
     init: function()
@@ -35,6 +35,19 @@ AFRAME.registerComponent('enemy', {
       var el = this.el;
       var data = this.data;
 
+      setTimeout(function() {
+        //var enemyEl = e.detail.body.el;
+
+        var distanceWithOrigin = el.object3D.position.distanceTo(new THREE.Vector3(0, 0, 0));
+
+        if (distanceWithOrigin >= 35) {
+          el.parentNode.removeChild(el);
+        }
+
+      }, 0);
+
+      //el.removeAttribute('dynamic-body');
+
       var rotation = el.getAttribute('rotation');
 
       rotation.x += data.rotation.x * 0.25 * timeDelta;
@@ -49,5 +62,7 @@ AFRAME.registerComponent('enemy', {
       //console.log(step);
 
       el.object3D.position.add(step);
+
+      //el.setAttribute('dynamic-body', true);
     },
 });

@@ -2,17 +2,28 @@
 require('aframe-physics-system');
 
 AFRAME.registerComponent('collision-able', {
-  schema:{
-    step: {type: 'number', default: -0.01}
-  },
+  init: function(){
+    console.log("collider init");
 
-  init: function()
-  {
     this.el.addEventListener('collide', function (e) {
-      e.detail.target.el;  // Original entity (playerEl).
-      e.detail.body.el;    // Other entity, which playerEl touched.
-      e.detail.contact;    // Stats about the collision (CANNON.ContactEquation).
-      e.detail.contact.ni; // Normal (direction) of the collision (CANNON.Vec3).
+      // e.detail.target.el;  // Original entity (playerEl).
+      // e.detail.body.el;    // Other entity, which playerEl touched.
+      // e.detail.contact;    // Stats about the collision (CANNON.ContactEquation).
+      // e.detail.contact.ni; // Normal (direction) of the collision (CANNON.Vec3).
+
+      setTimeout(function() {
+        var playerEl = document.querySelector('#player');
+
+        if (playerEl == e.detail.target.el) {
+          e.detail.body.el.parentNode.removeChild(e.detail.body.el);
+          e.detail.target.el.emit('decreaseHp', {damage:5});
+        }
+        else {
+          e.detail.target.el.parentNode.removeChild(e.detail.target.el);
+          e.detail.body.el.emit('decreaseHp', {damage:5});
+        }
+
+      }, 0);
     });
   },
 

@@ -1,24 +1,31 @@
 AFRAME.registerComponent('player', {
     schema:
     {
-        hp:{type:"number", default: 100},
+        hp:{type:'number', default: 100},
     },
 
     init: function()
     {
-        var asdf = this.data.hp;
+        var hp = this.data.hp;
 
-        this.el.addEventListener('asdf', function(evt){
+        this.el.addEventListener('decreaseHp', function(evt){
             console.log("Decrease Hp: " + evt.detail.damage);
-            asdf -= evt.detail.damage;
+            hp -= evt.detail.damage;
+
+            var hpEl = document.querySelector('#hp');
+
+            var score = "HP : " + hp;
+
+            hpEl.setAttribute('value', score);
          });
 
-        this.el.emit('asdf', {damage:10});
+        this.el.emit('decreaseHp', {damage:10});
 
         console.log(this.el.object3D.position.clone());
     },
 
     tick: function()
     {
+
     }
 });
